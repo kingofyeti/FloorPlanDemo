@@ -55,7 +55,7 @@ vector<Node> contoursToMap(vector<vector<Point>> &contours){
 			std::cout << "Points: " << p1.x << " " << p1.y << std::endl;
 			std::cout << "Distance: " << distance << std::endl;
 		}
-		std::cout << std::endl;
+		std::cout <<"hahaha"<< std::endl;
 	}
 	return nodeMap;
 }
