@@ -11,6 +11,12 @@
 #include <unordered_map>
 #include <ctime>
 
+struct Node{
+	Point vertex;
+	vector<int> indexMap;
+	Node(Point x, vector<int> y) : vertex(x), indexMap(y) {}
+};
+
 using namespace cv;
 
 extern std::vector<std::vector<cv::Point> > contours_poly;

@@ -193,7 +193,7 @@ void drawAxisAndBase(){
 	glVertex3f(0.0, 0.0, 1020.0);
 	glVertex3f(50.0, 0.0, 1000.0);
 	glEnd();
-	rtri += 10;
+	rtri += 1;
 	glPopMatrix();
 }
 
@@ -295,13 +295,13 @@ void drawHouse(){
 	switch (modelState)
 	{
 	case 0:
-		glPointSize(1.0f);
+		glPointSize(5.0f);
 		glBegin(GL_POINTS);
 		for (int i = 0; i < contours_poly.size(); i++){
 			for (int j = 0; j < contours_poly[i].size();j++){
 				glColor3f(objectColor[0], objectColor[1], objectColor[2]);
 				glVertex3f(contours_poly[i][j].x, contours_poly[i][j].y, 0);
-				glVertex3f(contours_poly[i][j].x, contours_poly[i][j].y, wallHeight);
+				//glVertex3f(contours_poly[i][j].x, contours_poly[i][j].y, wallHeight);
 			}
 		}
 		glEnd();

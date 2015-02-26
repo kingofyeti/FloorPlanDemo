@@ -15,7 +15,6 @@ struct Vec3
 	float z;
 };
 
-
 struct Triangle
 {
 	Vec3 v0;

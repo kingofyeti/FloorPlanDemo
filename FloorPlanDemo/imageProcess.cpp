@@ -45,6 +45,22 @@ void erodeAndDilate(Mat &src, int erosion_size){
 	dilate(src, src, element);
 }
 
+vector<Node> contoursToMap(vector<vector<Point>> &contours){
+	vector<Node> nodeMap;
+	for (int i = 0; i < contours.size(); i++){
+		for (int j = 0; j < contours[i].size()-1;j++){
+			Point p1 = contours[i][j];
+			Point p2 = contours[i][j+1];
+			double distance = norm(Mat(p1),Mat(p2));
+			std::cout << "Points: " << p1.x << " " << p1.y << std::endl;
+			std::cout << "Distance: " << distance << std::endl;
+		}
+		std::cout << std::endl;
+	}
+	return nodeMap;
+}
+
+
 Mat imageProcess(Mat src, int picIndex){
 	long startTime = clock();
 	//erodeAndDilate(src, 10);
@@ -71,20 +87,22 @@ Mat imageProcess(Mat src, int picIndex){
 		approxPolyDP(cv::Mat(contours[i]), contours_poly[i], 1, true);
 	}
 
-	std::ofstream myfile;
-	myfile.open("Output/edgeData/"+std::to_string(picIndex) + "_info.txt");
+	//std::ofstream myfile;
+	//myfile.open("Output/edgeData/"+std::to_string(picIndex) + "_info.txt");
 
 	Mat drawing = Mat::zeros(src.size(), CV_8UC3);
 	std::cout << contours_poly.size() << std::endl;
+
+	vector<Node> nodeMap = contoursToMap(contours_poly); 
+
 	for (int i = 0; i < contours_poly.size(); i++)
 	{
 		drawContours(dstImage, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
 		drawContours(drawing, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
-		//std::cout << contours_poly[i] << std::endl;	
-		myfile << contours_poly[i];
-		myfile << "\n";
+		//myfile << std::endl;
 	}
-	myfile.close();
+
+	//myfile.close();
 
 	/// Show in a window
 	namedWindow("Contours", CV_WINDOW_AUTOSIZE);
@@ -94,7 +112,7 @@ Mat imageProcess(Mat src, int picIndex){
 }
 
 void openCVProcess(){
-	for (int i = 15; i < 16; i++){
+	for (int i = 0; i < 1; i++){
 		String s = ("data/") + std::to_string(i) + (".jpg");
 		std::cout << s << std::endl;
 		Mat src = imread(s);
@@ -105,7 +123,7 @@ void openCVProcess(){
 	}
 
 	char waitkey = waitKey(0);
-	while (waitkey != 'q'){
+	while (waitkey != ' '){
 		waitKey(0);
 	}
 }
