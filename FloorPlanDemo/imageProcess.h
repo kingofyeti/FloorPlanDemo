@@ -14,7 +14,6 @@
 struct Node{
 	Point vertex;
 	vector<int> indexMap;
-	Node(Point x, vector<int> y) : vertex(x), indexMap(y) {}
 };
 
 using namespace cv;

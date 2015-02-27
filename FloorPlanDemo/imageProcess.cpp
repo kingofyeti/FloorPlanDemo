@@ -47,13 +47,32 @@ void erodeAndDilate(Mat &src, int erosion_size){
 
 vector<Node> contoursToMap(vector<vector<Point>> &contours){
 	vector<Node> nodeMap;
+
 	for (int i = 0; i < contours.size(); i++){
+		vector<int> indexmap;
+		Node temp;
+		temp.indexMap = new vector<int>(indexmap);
+		temp.vertex = contours[i][0];
 		for (int j = 0; j < contours[i].size()-1;j++){
+			int sign = false;
+			int k;
 			Point p1 = contours[i][j];
-			Point p2 = contours[i][j+1];
-			double distance = norm(Mat(p1),Mat(p2));
-			std::cout << "Points: " << p1.x << " " << p1.y << std::endl;
-			std::cout << "Distance: " << distance << std::endl;
+			for (k = 0; k < nodeMap.size(); k++){
+				Point p2 = nodeMap[k].vertex;
+				double distance = norm(Mat(p1), Mat(p2));
+				if (distance < 3.0){
+					sign = true;
+					break;
+				}
+			}
+			if (sign == true){
+				nodeMap[k].vertex.x = (nodeMap[k].vertex.x + p1.x) / 2;
+				nodeMap[k].vertex.y = (nodeMap[k].vertex.y + p1.y) / 2;
+			}
+			else{
+				
+			}
+			
 		}
 		std::cout << std::endl;
 	}
