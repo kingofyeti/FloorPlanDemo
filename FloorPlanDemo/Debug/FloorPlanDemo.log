@@ -1,18 +1,20 @@
-﻿Build started 2/26/2015 4:35:14 PM.
-     1>Project "C:\VSWorkspace\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2/28/2015 3:14:26 PM.
+     1>Project "E:\Github\Git_local\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt imageProcess.cpp
          imageProcess.cpp
-     1>c:\vsworkspace\floorplandemo\floorplandemo\imageprocess.cpp(49): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\vsworkspace\floorplandemo\floorplandemo\imageprocess.cpp(50): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\vsworkspace\floorplandemo\floorplandemo\imageprocess.cpp(84): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\vsworkspace\floorplandemo\floorplandemo\imageprocess.cpp(96): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(60): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(64): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(73): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(128): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(141): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(143): warning C4018: '<' : signed/unsigned mismatch
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\VSWorkspace\FloorPlanDemo\Debug\FloorPlanDemo.exe" /INCREMENTAL /NOLOGO opencv_ml2410d.lib opencv_calib3d2410d.lib opencv_contrib2410d.lib opencv_core2410d.lib opencv_features2d2410d.lib opencv_flann2410d.lib opencv_gpu2410d.lib opencv_highgui2410d.lib opencv_imgproc2410d.lib opencv_legacy2410d.lib opencv_objdetect2410d.lib opencv_ts2410d.lib opencv_video2410d.lib opencv_ocl2410d.lib opencv_photo2410d.lib opencv_stitching2410d.lib opencv_superres2410d.lib opencv_videostab2410d.lib opencv_objdetect2410.lib opencv_ts2410.lib opencv_video2410.lib opencv_nonfree2410.lib opencv_ocl2410.lib opencv_photo2410.lib opencv_stitching2410.lib opencv_superres2410.lib opencv_videostab2410.lib opencv_calib3d2410.lib opencv_contrib2410.lib opencv_core2410.lib opencv_features2d2410.lib opencv_flann2410.lib opencv_gpu2410.lib opencv_highgui2410.lib opencv_imgproc2410.lib opencv_legacy2410.lib opencv_ml2410.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\VSWorkspace\FloorPlanDemo\Debug\FloorPlanDemo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\VSWorkspace\FloorPlanDemo\Debug\FloorPlanDemo.lib" /MACHINE:X86 Debug\openGLDemo.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Github\Git_local\FloorPlanDemo\Debug\FloorPlanDemo.exe" /INCREMENTAL /NOLOGO opencv_ml2410d.lib opencv_calib3d2410d.lib opencv_contrib2410d.lib opencv_core2410d.lib opencv_features2d2410d.lib opencv_flann2410d.lib opencv_gpu2410d.lib opencv_highgui2410d.lib opencv_imgproc2410d.lib opencv_legacy2410d.lib opencv_objdetect2410d.lib opencv_ts2410d.lib opencv_video2410d.lib opencv_nonfree2410d.lib opencv_ocl2410d.lib opencv_photo2410d.lib opencv_stitching2410d.lib opencv_superres2410d.lib opencv_videostab2410d.lib opencv_objdetect2410.lib opencv_ts2410.lib opencv_video2410.lib opencv_nonfree2410.lib opencv_ocl2410.lib opencv_photo2410.lib opencv_stitching2410.lib opencv_superres2410.lib opencv_videostab2410.lib opencv_calib3d2410.lib opencv_contrib2410.lib opencv_core2410.lib opencv_features2d2410.lib opencv_flann2410.lib opencv_gpu2410.lib opencv_highgui2410.lib opencv_imgproc2410.lib opencv_legacy2410.lib opencv_ml2410.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Github\Git_local\FloorPlanDemo\Debug\FloorPlanDemo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Github\Git_local\FloorPlanDemo\Debug\FloorPlanDemo.lib" /MACHINE:X86 Debug\openGLDemo.obj
          Debug\imageProcess.obj
-         FloorPlanDemo.vcxproj -> C:\VSWorkspace\FloorPlanDemo\Debug\FloorPlanDemo.exe
-     1>Done Building Project "C:\VSWorkspace\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" (Build target(s)).
+         FloorPlanDemo.vcxproj -> E:\Github\Git_local\FloorPlanDemo\Debug\FloorPlanDemo.exe
+     1>Done Building Project "E:\Github\Git_local\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.57
+Time Elapsed 00:00:04.18

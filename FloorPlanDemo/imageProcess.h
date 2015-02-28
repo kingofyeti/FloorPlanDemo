@@ -11,12 +11,14 @@
 #include <unordered_map>
 #include <ctime>
 
+using namespace cv;
+
 struct Node{
+	int index;
 	Point vertex;
 	vector<int> indexMap;
 };
 
-using namespace cv;
 
 extern std::vector<std::vector<cv::Point> > contours_poly;
 extern int maxImg;
