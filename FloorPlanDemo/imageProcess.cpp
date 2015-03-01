@@ -45,10 +45,21 @@ void erodeAndDilate(Mat &src, int erosion_size){
 	dilate(src, src, element);
 }
 
-vector<Node> contoursToMap(vector<vector<Point>> &contours){
+void lineRefinement(Point &p1, Point &p2, float refinRatio){
+	if (abs(p1.x - p2.x) < refinRatio){
+		p2.x = p1.x;
+		std::cout << "get" << std::endl;
+	}
+	if (abs(p1.y - p2.y) < refinRatio){
+		p2.y = p1.y;
+		std::cout << "get" << std::endl;
+	}
+}
+
+vector<Node> contoursToMap(vector<vector<Point>> &contours, float erosionRatio){
 	vector<Node> nodeMap;
 	int preIndex;
-	for (int i = 4; i < 5; i++){
+	for (int i = 0; i < contours.size(); i++){
 		Node first;
 		vector<int> fIndexmap;
 		first.indexMap = fIndexmap;
@@ -64,16 +75,13 @@ vector<Node> contoursToMap(vector<vector<Point>> &contours){
 			for (k = 0; k < nodeMap.size(); k++){
 				Point p2 = nodeMap[k].vertex;
 				double distance = norm(Mat(p1), Mat(p2));
-				if (distance < 10){
+				if (distance < erosionRatio){
 					sign = true;
 					break;
 				}
 			}
-			if (sign == true){
-				nodeMap[k].vertex.x = (nodeMap[k].vertex.x + p1.x) / 2;
-				nodeMap[k].vertex.y = (nodeMap[k].vertex.y + p1.y) / 2;
+			if (sign == true)
 			 	preIndex = nodeMap[k].index;
-			}
 			else{
 				Node temp;
 				temp.vertex = p1;
@@ -81,17 +89,19 @@ vector<Node> contoursToMap(vector<vector<Point>> &contours){
 				indexmap.push_back(preIndex);
 				nodeMap[preIndex].indexMap.push_back(nodeMap.size());
 				temp.index = nodeMap.size();
+				lineRefinement(nodeMap[preIndex].vertex, contours[i][j], 10);
 				temp.vertex = contours[i][j];
 				temp.indexMap = indexmap;
 				nodeMap.push_back(temp); 
 				preIndex = temp.index;
 			}
 		}
-		std::cout << std::endl;
 	}
+	std::fstream myfileStream;
+
 	std::cout << "Print map: " << nodeMap.size() << std::endl;
 	for (Node x : nodeMap){
-		std::cout << "Vertex index: " << x.vertex << std::endl;
+		std::cout << x.index<< "Vertex index: " << x.vertex << std::endl;
 		for (auto y : x.indexMap){
 			std::cout << y << " ";
 		}
@@ -100,7 +110,6 @@ vector<Node> contoursToMap(vector<vector<Point>> &contours){
 	std::cout << "Finish" << std::endl;
 	return nodeMap;
 }
-
 
 Mat imageProcess(Mat src, int picIndex){
 	long startTime = clock();
@@ -128,34 +137,28 @@ Mat imageProcess(Mat src, int picIndex){
 		approxPolyDP(cv::Mat(contours[i]), contours_poly[i], 1, true);
 	}
 
-	//std::ofstream myfile;
-	//myfile.open("Output/edgeData/"+std::to_string(picIndex) + "_info.txt");
-
 	Mat drawing = Mat::zeros(src.size(), CV_8UC3);
 	std::cout << "contours size: " << contours_poly.size() << std::endl;
 
-	vector<Node> nodeMap = contoursToMap(contours_poly);
+	vector<Node> nodeMap = contoursToMap(contours_poly,10);
 
 	Mat drawing2 = Mat::zeros(src.size(), CV_8UC3);
 	for (int i = 0; i < nodeMap.size(); i++){
-		Point p1 = nodeMap[i].vertex;
+			
 		for (int j = 0; j < nodeMap[i].indexMap.size(); j++){
+			Point p1 = nodeMap[i].vertex;
 			int index = nodeMap[i].indexMap[j];
-			Point p2 = nodeMap[j].vertex;
+			Point p2 = nodeMap[index].vertex;
 			line(drawing2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 1, 8);
 		}
 	}
 	imshow("New", drawing2);
 
-
-	for (int i = 4; i < 5; i++)
+	for (int i = 0; i < contours_poly.size(); i++)
 	{
 		drawContours(dstImage, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
 		drawContours(drawing, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
-		//myfile << std::endl;
 	}
-
-	//myfile.close();
 
 	/// Show in a window
 	namedWindow("Contours", CV_WINDOW_AUTOSIZE);
@@ -165,7 +168,7 @@ Mat imageProcess(Mat src, int picIndex){
 }
 
 void openCVProcess(){
-	for (int i = 0; i < 1; i++){
+	for (int i = 9; i < 10; i++){
 		String s = ("data/") + std::to_string(i) + (".jpg");
 		std::cout << s << std::endl;
 		Mat src = imread(s);
