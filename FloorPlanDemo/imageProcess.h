@@ -31,4 +31,4 @@ void erodeAndDilate(Mat &src, int erosion_size);
 
 Mat imageProcess(Mat src, int picIndex);
 
-void openCVProcess();
+void openCVProcess(int imgNum);

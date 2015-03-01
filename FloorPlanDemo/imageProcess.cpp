@@ -48,15 +48,13 @@ void erodeAndDilate(Mat &src, int erosion_size){
 void lineRefinement(Point &p1, Point &p2, float refinRatio){
 	if (abs(p1.x - p2.x) < refinRatio){
 		p2.x = p1.x;
-		std::cout << "get" << std::endl;
 	}
 	if (abs(p1.y - p2.y) < refinRatio){
 		p2.y = p1.y;
-		std::cout << "get" << std::endl;
 	}
 }
 
-vector<Node> contoursToMap(vector<vector<Point>> &contours, float erosionRatio){
+vector<Node> contoursToMap(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
 	vector<Node> nodeMap;
 	int preIndex;
 	for (int i = 0; i < contours.size(); i++){
@@ -67,7 +65,6 @@ vector<Node> contoursToMap(vector<vector<Point>> &contours, float erosionRatio){
 		first.index = nodeMap.size();
 		nodeMap.push_back(first);
 		preIndex = first.index;
-		std::cout << i << ": " << contours[i].size() << std::endl;
 		for (int j = 1; j < contours[i].size(); j++){
 			int sign = false;
 			int k;
@@ -80,8 +77,11 @@ vector<Node> contoursToMap(vector<vector<Point>> &contours, float erosionRatio){
 					break;
 				}
 			}
-			if (sign == true)
-			 	preIndex = nodeMap[k].index;
+			if (sign == true){
+			//	nodeMap[k].vertex.x = (nodeMap[k].vertex.x + p1.x) / 2;
+			//	nodeMap[k].vertex.y = (nodeMap[k].vertex.y + p1.y) / 2;
+				preIndex = nodeMap[k].index;
+			}
 			else{
 				Node temp;
 				temp.vertex = p1;
@@ -97,17 +97,68 @@ vector<Node> contoursToMap(vector<vector<Point>> &contours, float erosionRatio){
 			}
 		}
 	}
-	std::fstream myfileStream;
-
-	std::cout << "Print map: " << nodeMap.size() << std::endl;
+	std::ofstream myfileStream;
+	String d = ("output/edgeData/") + std::to_string(picIndex) + ("_info.txt");
+	std::cout << d << std::endl;
+	std::cout <<  nodeMap.size()<< std::endl;
+	myfileStream.open(d);
+	myfileStream << "Node map size: " << nodeMap.size() << std::endl;
 	for (Node x : nodeMap){
-		std::cout << x.index<< "Vertex index: " << x.vertex << std::endl;
+		//myfileStream << "Vertex index: " << x.index << "\n";
+		//myfileStream << "Vertex position: " << x.vertex << "\n";
+		//myfileStream << "Vertex connected: ";
+		myfileStream << x.index << "\n";
+		myfileStream << x.vertex.x << " "<< x.vertex.y << "\n";
 		for (auto y : x.indexMap){
-			std::cout << y << " ";
+			myfileStream << y << " ";
 		}
-		std::cout << std::endl;
+		myfileStream << "\n\n";
 	}
-	std::cout << "Finish" << std::endl;
+	myfileStream.close();
+	return nodeMap;
+}
+
+vector<Node> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
+	vector<Node> nodeMap;
+	int preIndex;
+	for (int i = 0; i < contours.size(); i++){
+		Node first;
+		vector<int> fIndexmap;
+		first.indexMap = fIndexmap;
+		first.vertex = contours[i][0];
+		first.index = nodeMap.size();
+		nodeMap.push_back(first);
+		preIndex = first.index;
+		for (int j = 1; j < contours[i].size(); j++){
+			int sign = false;
+			int k;
+			Point p1 = contours[i][j];
+			for (k = 0; k < nodeMap.size(); k++){
+				Point p2 = nodeMap[k].vertex;
+				double distance = norm(Mat(p1), Mat(p2));
+				if (distance < erosionRatio){
+					sign = true;
+					break;
+				}
+			}
+			if (sign == true){
+				preIndex = nodeMap[k].index;
+			}
+			else{
+				Node temp;
+				temp.vertex = p1;
+				vector<int> indexmap;
+				indexmap.push_back(preIndex);
+				nodeMap[preIndex].indexMap.push_back(nodeMap.size());
+				temp.index = nodeMap.size();
+				lineRefinement(nodeMap[preIndex].vertex, contours[i][j], 5);
+				temp.vertex = contours[i][j];
+				temp.indexMap = indexmap;
+				nodeMap.push_back(temp);
+				preIndex = temp.index;
+			}
+		}
+	}
 	return nodeMap;
 }
 
@@ -118,11 +169,12 @@ Mat imageProcess(Mat src, int picIndex){
 	src = ~src;
 	Scalar rgb_min(0);
 	Scalar rgb_max(250);
-	threshold(src, src, 230, 255, 0);
+	threshold(src, src, 210, 255, 0);
 	//inRange(src, rgb_min, rgb_max, src);
-
-	erodeAndDilate(src, 1);
+	imshow("Threshold: ", src);
+	erodeAndDilate(src, 1.6);
 	Mat midImage, dstImage;
+	dstImage = ~dstImage;
 	cvtColor(src, dstImage, CV_GRAY2BGR);
 	medianBlur(src, src, 5);
 
@@ -137,47 +189,47 @@ Mat imageProcess(Mat src, int picIndex){
 		approxPolyDP(cv::Mat(contours[i]), contours_poly[i], 1, true);
 	}
 
-	Mat drawing = Mat::zeros(src.size(), CV_8UC3);
-	std::cout << "contours size: " << contours_poly.size() << std::endl;
+	Mat rawEdge = ~Mat::zeros(src.size(), CV_8UC3);
 
-	vector<Node> nodeMap = contoursToMap(contours_poly,10);
+	for (int i = 0; i < contours_poly.size(); i++)
+	{
+		//drawContours(dstImage, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
+		drawContours(rawEdge, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
+	}
+	imshow("Double edges", rawEdge);
 
-	Mat drawing2 = Mat::zeros(src.size(), CV_8UC3);
+	vector<Node> nodeMap = contoursToMap(contours_poly, 10, picIndex);
+	Mat refinedEdge = ~Mat::zeros(src.size(), CV_8UC3);
 	for (int i = 0; i < nodeMap.size(); i++){
 			
 		for (int j = 0; j < nodeMap[i].indexMap.size(); j++){
 			Point p1 = nodeMap[i].vertex;
 			int index = nodeMap[i].indexMap[j];
 			Point p2 = nodeMap[index].vertex;
-			line(drawing2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 1, 8);
+			line(dstImage, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 3, 8);
+			line(refinedEdge, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 3, 8);
 		}
 	}
-	imshow("New", drawing2);
+	imshow("Line edges", refinedEdge);
 
-	for (int i = 0; i < contours_poly.size(); i++)
-	{
-		drawContours(dstImage, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
-		drawContours(drawing, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
-	}
 
 	/// Show in a window
-	namedWindow("Contours", CV_WINDOW_AUTOSIZE);
-	imshow("Contours", drawing);
 	imshow("dst", dstImage);
-	return drawing;
+	return refinedEdge;
 }
 
-void openCVProcess(){
-	for (int i = 9; i < 10; i++){
+void openCVProcess(int imgNum){
+
+	for (int i = 0; i < imgNum; i++){
 		String s = ("data/") + std::to_string(i) + (".jpg");
 		std::cout << s << std::endl;
 		Mat src = imread(s);
+		resize(src, src, Size(1024, 768), 0, 0, INTER_CUBIC); // resize to 1024x768 resolution
 		imshow("src", src);
 		Mat dst = imageProcess(src, i);
 		String d = ("output/image/") + std::to_string(i) + ("Out.jpg");
 		imwrite(d, dst);
 	}
-
 	char waitkey = waitKey(0);
 	while (waitkey != ' '){
 		waitKey(0);
