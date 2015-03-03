@@ -19,6 +19,13 @@ struct Node{
 	vector<int> indexMap;
 };
 
+struct Edge{
+	int index;
+	float span;
+	Point p1;
+	Point p2;
+};
+
 
 extern std::vector<std::vector<cv::Point> > contours_poly;
 extern int maxImg;

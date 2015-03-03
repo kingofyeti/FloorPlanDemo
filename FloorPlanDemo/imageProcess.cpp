@@ -118,48 +118,50 @@ vector<Node> contoursToMap(vector<vector<Point>> &contours, float erosionRatio, 
 	return nodeMap;
 }
 
-vector<Node> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
+bool isOpposite(Edge &e1, Edge &e2){
+	
+}
+
+float pDistance(Point p1, Point p2, Point dst){
+
+}
+
+vector<Edge> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
+	vector<Edge> edgeMap;
 	vector<Node> nodeMap;
-	int preIndex;
 	for (int i = 0; i < contours.size(); i++){
-		Node first;
-		vector<int> fIndexmap;
-		first.indexMap = fIndexmap;
-		first.vertex = contours[i][0];
-		first.index = nodeMap.size();
-		nodeMap.push_back(first);
-		preIndex = first.index;
-		for (int j = 1; j < contours[i].size(); j++){
-			int sign = false;
-			int k;
-			Point p1 = contours[i][j];
-			for (k = 0; k < nodeMap.size(); k++){
-				Point p2 = nodeMap[k].vertex;
-				double distance = norm(Mat(p1), Mat(p2));
-				if (distance < erosionRatio){
-					sign = true;
-					break;
-				}
-			}
-			if (sign == true){
-				preIndex = nodeMap[k].index;
-			}
-			else{
-				Node temp;
-				temp.vertex = p1;
-				vector<int> indexmap;
-				indexmap.push_back(preIndex);
-				nodeMap[preIndex].indexMap.push_back(nodeMap.size());
-				temp.index = nodeMap.size();
-				lineRefinement(nodeMap[preIndex].vertex, contours[i][j], 5);
-				temp.vertex = contours[i][j];
-				temp.indexMap = indexmap;
-				nodeMap.push_back(temp);
-				preIndex = temp.index;
+		for (int j = 0; j < contours[i].size(); j++){
+			int second = j != contours[i].size() - 1 ? j + 1 : 0; // Next point index
+			Edge tempEdge;
+			tempEdge.p1 = contours[i][j];
+			tempEdge.p2 = contours[i][second];
+			double distance = norm(Mat(tempEdge.p1), Mat(tempEdge.p2));
+			if (distance > erosionRatio){
+				tempEdge.index = edgeMap.size();
+				tempEdge.span = INT_MAX;
+				edgeMap.push_back(tempEdge);
 			}
 		}
 	}
-	return nodeMap;
+	for (int i = 0; i < edgeMap.size(); i++){
+		bool findOne = false;
+		for (int j = 0; j < edgeMap.size(); j++){
+			Edge e1 = edgeMap[i];
+			Edge e2 = edgeMap[j];
+			findOne = true;
+			if (i != j && isOpposite(e1, e2)){
+				Point temp;
+				temp.x = (e2.p2.x - e2.p1.x) / 2;
+				temp.y = (e2.p2.y - e2.p1.y) / 2;
+				e1.span = min(e1.span,pDistance(e1.p1,e2.p2,temp));
+				e2.span = min(e1.span, pDistance(e1.p1,e2.p2,temp));
+			}	
+		}
+		if (findOne){                                                                                                           
+		}
+	}
+
+	return edgeMap;
 }
 
 Mat imageProcess(Mat src, int picIndex){
@@ -215,7 +217,7 @@ Mat imageProcess(Mat src, int picIndex){
 
 	/// Show in a window
 	imshow("dst", dstImage);
-	return refinedEdge;
+	return rawEdge;
 }
 
 void openCVProcess(int imgNum){
