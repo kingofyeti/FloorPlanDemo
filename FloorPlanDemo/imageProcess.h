@@ -21,9 +21,11 @@ struct Node{
 
 struct Edge{
 	int index;
+	int oppositeIndex;
 	float span;
 	Point p1;
 	Point p2;
+	Edge(int _index, int _oppositeIndex, float _span, Point _p1, Point _p2) : index(_index), oppositeIndex(_oppositeIndex), span(_span), p1(_p1), p2(_p2) {}
 };
 
 
