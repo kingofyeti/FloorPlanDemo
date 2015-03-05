@@ -126,14 +126,29 @@ bool isOpposite(Edge &e1, Edge &e2){
 	Vec2f v2(p2.x, p2.y);
 	Vec2f goal = v1/norm(v1) + v2/norm(v2);
 	//std::cout << goal << std::endl;
-	if (goal[0] == 0 && goal[1] == 0)
+	if (goal[0] == 0 && goal[1] == 0){
 		return true;
-	else
+	}
+	else{
 		return false;
+	}
+	
 }
 
-float pDistance(Point p1, Point p2, Point dst){
-	return 10;
+float pDistance(Point e1p1, Point e1p2, Point e2p1, Point e2p2){
+	float distance;
+	Point temp;
+	temp.x = (e2p2.x + e2p1.x) / 2;
+	temp.y = (e2p2.y + e2p1.y) / 2; 
+	if (e1p1.x - e1p2.x == 0){
+		distance = abs(temp.x - e1p1.x);
+		return distance;
+	}
+	float k = (e1p1.y - e1p2.y) / (e1p1.x - e1p2.x);
+	float b = e1p1.y - k * e1p1.x;
+
+	distance = (k*temp.x - temp.y + b) / sqrt(k*k + 1);
+	return abs(distance);
 }
 
 vector<Edge> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
@@ -160,24 +175,39 @@ vector<Edge> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio,
 	for (int i = 0; i < edgeMap.size(); i++){
 		Edge e1 = edgeMap[i];
 		int j;
-		int curMin;
-		for (j = 0; j < edgeMap.size(); j++){
+		int curMin = -1;
+		float distance = 100;
+		bool got = false;
+		for (j = 0; j < i; j++){
 			Edge e2 = edgeMap[j];
 			if (i != j && isOpposite(e1, e2)){
-				Point temp;
-				temp.x = (e2.p2.x - e2.p1.x) / 2;
-				temp.y = (e2.p2.y - e2.p1.y) / 2;
-				int distance = pDistance(e1.p1, e2.p2, temp);
-				if (distance < e1.span && distance < e2.span){
-					e1.span = min(e1.span, pDistance(e1.p1, e2.p2, temp));
-					e2.span = min(e2.span, pDistance(e1.p1, e2.p2, temp));
-					e1.oppositeIndex = j;
-					e2.oppositeIndex = i;
+				if (pDistance(e1.p1, e1.p2, e2.p1, e2.p2) < e1.span && pDistance(e1.p1, e1.p2, e2.p1, e2.p2) < e2.span){
+					distance = pDistance(e1.p1, e1.p2, e2.p1, e2.p2);
+					//std::cout << "YES@!!!!!" << i << " " << j << " " << distance << std::endl;
 					curMin = j;
+					got = true;
 				}
 			}	
 		}
+		if (got){
+			edgeMap[i].span = distance;
+			edgeMap[curMin].span = distance;
+			edgeMap[i].oppositeIndex = curMin;
+			edgeMap[curMin].oppositeIndex = i;
+		}
 	}
+
+	for (int i = 0; i < edgeMap.size(); i++){
+		Edge temp = edgeMap[i];
+		std::cout << temp.index << " " << temp.oppositeIndex << " " << temp.p1 << " " << temp.p2 << " " << temp.span << std::endl;
+	}
+
+	Point a = { 557, 469 };
+	Point b = { 323, 469 };
+	Point c = { 737, 476 };
+	Point d = { 570, 203 };
+	//std::cout << pDistance(a, b, c, d) << std::endl;
+
 	//for (int i = 0; i < edgeMap.size(); i++){
 	//	Edge e1 = edgeMap[i];
 	//	if (e1.span < INT_MAX){
@@ -212,6 +242,10 @@ Mat printContours(Vector<Node> nodeMap,Mat &src){
 
 Mat printEdges(Vector<Edge> edgeMap, Mat &src){
 	Mat edges2 = ~Mat::zeros(src.size(), CV_8UC3);
+	//for (int i = 0; i < edgeMap.size(); i++){
+	//	Edge temp = edgeMap[i];
+	//	std::cout << temp.index << " " << temp.oppositeIndex << " " << temp.p1 << " " << temp.p2 << " " << temp.span << std::endl;
+	//}
 	imshow("Solution 2", edges2);
 	return edges2;
 }
