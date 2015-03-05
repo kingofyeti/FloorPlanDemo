@@ -11,13 +11,26 @@
 #include <unordered_map>
 #include <ctime>
 
+using namespace cv;
+
+
+#define PI 3.14
+
 struct Node{
+	int index;
 	Point vertex;
 	vector<int> indexMap;
-	Node(Point x, vector<int> y) : vertex(x), indexMap(y) {}
 };
 
-using namespace cv;
+struct Edge{
+	int index;
+	int oppositeIndex;
+	float span;
+	Point p1;
+	Point p2;
+
+};
+
 
 extern std::vector<std::vector<cv::Point> > contours_poly;
 extern int maxImg;
@@ -30,4 +43,4 @@ void erodeAndDilate(Mat &src, int erosion_size);
 
 Mat imageProcess(Mat src, int picIndex);
 
-void openCVProcess();
+void openCVProcess(int imgNum);
