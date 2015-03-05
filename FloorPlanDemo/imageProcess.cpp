@@ -15,6 +15,7 @@
 #include "imageProcess.h"
 
 std::vector<std::vector<cv::Point> > contours_poly;
+
 int maxImg;
 
 void imageShow(Mat frame, String name){
@@ -122,24 +123,36 @@ bool isOpposite(Edge &e1, Edge &e2){
 	Point p1 = e1.p2 - e1.p1;
 	Vec2f v1(p1.x, p1.y);
 	Point p2 = e2.p2 - e2.p1;
-	Vec2f v1(p2.x, p2.y);
-	Mat i;
-	return true;
+	Vec2f v2(p2.x, p2.y);
+	Vec2f goal = v1/norm(v1) + v2/norm(v2);
+	//std::cout << goal << std::endl;
+	if (goal[0] == 0 && goal[1] == 0)
+		return true;
+	else
+		return false;
 }
 
 float pDistance(Point p1, Point p2, Point dst){
-
+	return 10;
 }
 
-vector<Node> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
+vector<Edge> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
 	vector<Edge> edgeMap;
-	vector<Node> nodeMap;
+	Point p1 = { 1, 1 };
+	Point p2 = { 1, 1 };
+	Edge e1 = {1, 2, 10, p1, p2};
+	edgeMap.push_back(e1);
 	for (int i = 0; i < contours.size(); i++){
 		for (int j = 0; j < contours[i].size(); j++){
 			int second = j != contours[i].size() - 1 ? j + 1 : 0; // Next point index
 			double distance = norm(Mat(contours[i][j]), Mat(contours[i][second]));
 			if (distance > erosionRatio){
-				Edge tempEdge(edgeMap.size(), -1, INT_MAX, contours[i][j], contours[i][second]);
+				Edge tempEdge;
+				tempEdge.index = edgeMap.size();
+				tempEdge.oppositeIndex = -1;
+				tempEdge.span = INT_MAX;
+				tempEdge.p1 = contours[i][j];
+				tempEdge.p2 = contours[i][second];
 				edgeMap.push_back(tempEdge);
 			}
 		}
@@ -165,22 +178,42 @@ vector<Node> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio,
 			}	
 		}
 	}
-	for (int i = 0; i < edgeMap.size(); i++){
-		Edge e1 = edgeMap[i];
-		if (e1.span < INT_MAX){
-			Node n1, n2;
-			n1.index = nodeMap.size();
-			n2.index = nodeMap.size()+1;
-			n1.vertex = edgeMap[i].p1;
-			n2.vertex = edgeMap[i].p2;
-			n1.indexMap.push_back(n2.index);
-			n2.indexMap.push_back(n1.index);
-			nodeMap.push_back(n1);
-			nodeMap.push_back(n2);
+	//for (int i = 0; i < edgeMap.size(); i++){
+	//	Edge e1 = edgeMap[i];
+	//	if (e1.span < INT_MAX){
+	//		Node n1, n2;
+	//		n1.index = nodeMap.size();
+	//		n2.index = nodeMap.size()+1;
+	//		n1.vertex = edgeMap[i].p1;
+	//		n2.vertex = edgeMap[i].p2;
+	//		n1.indexMap.push_back(n2.index);
+	//		n2.indexMap.push_back(n1.index);
+	//		nodeMap.push_back(n1);
+	//		nodeMap.push_back(n2);
+	//	}
+	//}
+
+	return edgeMap;
+}
+
+Mat printContours(Vector<Node> nodeMap,Mat &src){
+	Mat refinedEdge = ~Mat::zeros(src.size(), CV_8UC3);
+	for (int i = 0; i < nodeMap.size(); i++){
+		for (int j = 0; j < nodeMap[i].indexMap.size(); j++){
+			Point p1 = nodeMap[i].vertex;
+			int index = nodeMap[i].indexMap[j];
+			Point p2 = nodeMap[index].vertex;
+			line(refinedEdge, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 3, 8);
 		}
 	}
+	imshow("Solution 1", refinedEdge);
+	return refinedEdge;
+}
 
-	return nodeMap;
+Mat printEdges(Vector<Edge> edgeMap, Mat &src){
+	Mat edges2 = ~Mat::zeros(src.size(), CV_8UC3);
+	imshow("Solution 2", edges2);
+	return edges2;
 }
 
 Mat imageProcess(Mat src, int picIndex){
@@ -190,14 +223,15 @@ Mat imageProcess(Mat src, int picIndex){
 	src = ~src;
 	Scalar rgb_min(0);
 	Scalar rgb_max(250);
-	threshold(src, src, 210, 255, 0);
+	threshold(src, src, 230, 255, 0);
 	//inRange(src, rgb_min, rgb_max, src);
-	imshow("Threshold: ", src);
+
 	erodeAndDilate(src, 1.6);
 	Mat midImage, dstImage;
 	dstImage = ~dstImage;
 	cvtColor(src, dstImage, CV_GRAY2BGR);
 	medianBlur(src, src, 5);
+	imshow("Threshold: ", src);
 
 	int thresh = 100;
 	Mat canny_output;
@@ -214,24 +248,14 @@ Mat imageProcess(Mat src, int picIndex){
 
 	for (int i = 0; i < contours_poly.size(); i++)
 	{
-		//drawContours(dstImage, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
 		drawContours(rawEdge, contours_poly, i, Scalar(0, 0, 255), 1, 8, hierarchy, 0, Point());
 	}
 	imshow("Double edges", rawEdge);
 
-	vector<Node> nodeMap = contoursToMap(contours_poly, 10, picIndex);
-	Mat refinedEdge = ~Mat::zeros(src.size(), CV_8UC3);
-	for (int i = 0; i < nodeMap.size(); i++){
-			
-		for (int j = 0; j < nodeMap[i].indexMap.size(); j++){
-			Point p1 = nodeMap[i].vertex;
-			int index = nodeMap[i].indexMap[j];
-			Point p2 = nodeMap[index].vertex;
-			line(dstImage, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 3, 8);
-			line(refinedEdge, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 3, 8);
-		}
-	}
-	imshow("Line edges", refinedEdge);
+	//vector<Node> nodeMap = contoursToMap(contours_poly, 10, picIndex);
+	//Mat refinedEdge = printContours(nodeMap,src);
+	vector<Edge> edgeMap = contoursToMap2(contours_poly, 10, picIndex);
+	Mat edges2 = printEdges(edgeMap,src);
 
 
 	/// Show in a window

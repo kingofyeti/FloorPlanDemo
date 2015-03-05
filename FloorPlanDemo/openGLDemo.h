@@ -28,7 +28,7 @@ typedef enum { SHAPE_TEAPOT = 1, SHAPE_TORUS, SHAPE_CONE } Shape;
 
 const int MAX_MATERIAL_COUNT = 100000;
 
-const double PI = 3.14159265;
+#define PI 3.1415
 
 Vec3 rotationVector = { -1, -1, -1 };
 Vec3 camera = { 1000.0f, 1000.0f, 1000.0f };

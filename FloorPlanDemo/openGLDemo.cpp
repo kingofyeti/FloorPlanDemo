@@ -503,7 +503,7 @@ void TwBarFunc(){
 }
 
 int main(int argc, char* argv[]){
-	openCVProcess(19);
+	openCVProcess(1);
 	glutInit(&argc, argv);
 	cout << "hello GL" << endl;
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
