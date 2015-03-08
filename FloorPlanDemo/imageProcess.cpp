@@ -151,75 +151,55 @@ float pDistance(Point e1p1, Point e1p2, Point e2p1, Point e2p2){
 	return abs(distance);
 }
 
-vector<Edge> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
-	vector<Edge> edgeMap;
+vector<vector<Edge>> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
+	vector<vector<Edge>> edgeMap;
 	for (int i = 0; i < contours.size(); i++){
+		vector<Edge> temp;
 		for (int j = 0; j < contours[i].size(); j++){
 			int second = j != contours[i].size() - 1 ? j + 1 : 0; // Next point index
 			double distance = norm(Mat(contours[i][j]), Mat(contours[i][second]));
 			if (distance > erosionRatio){
 				Edge tempEdge;
-				tempEdge.index = edgeMap.size();
+				tempEdge.index = temp.size();
 				tempEdge.oppositeIndex = -1;
+				tempEdge.sign = false;
 				tempEdge.span = INT_MAX;
 				tempEdge.p1 = contours[i][j];
 				tempEdge.p2 = contours[i][second];
-				edgeMap.push_back(tempEdge);
+				temp.push_back(tempEdge);
+			}
+		}
+		edgeMap.push_back(temp);
+	}
+	for (int k = 0; k < edgeMap.size(); k++){
+		for (int i = 0; i < edgeMap[k].size(); i++){
+			int j;
+			int curMin = -1;
+			float distance = INT_MAX;
+			bool got = false;
+			for (j = 0; j < edgeMap[k].size(); j++){
+				if (i != j && isOpposite(edgeMap[k][i], edgeMap[k][j])){
+					float localDistance = pDistance(edgeMap[k][i].p1, edgeMap[k][i].p2, edgeMap[k][j].p1, edgeMap[k][j].p2);
+					if (localDistance < edgeMap[k][i].span){
+						edgeMap[k][i].sign = true;
+						edgeMap[k][i].span = localDistance;
+						edgeMap[k][i].oppositeIndex = j;
+					}
+					if (localDistance < edgeMap[k][j].span){
+						edgeMap[k][j].span = localDistance;
+						edgeMap[k][j].oppositeIndex = i;
+					}
+				}
 			}
 		}
 	}
-	for (int i = 0; i < edgeMap.size(); i++){
-		int j;
-		int curMin = -1;
-		float distance = 100;
-		bool got = false;
-		for (j = 0; j < i; j++){
-			if (i != j && isOpposite(edgeMap[i], edgeMap[j])){
-				float localDistance = pDistance(edgeMap[i].p1, edgeMap[i].p2, edgeMap[j].p1, edgeMap[j].p2);
-				if (localDistance < edgeMap[i].span || localDistance < edgeMap[j].span){
-					distance = localDistance;
-					//std::cout << "YES@!!!!!" << i << " " << j << " " << distance << std::endl;
-					curMin = j;
-					edgeMap[i].span = min(edgeMap[i].span,distance);
-					edgeMap[j].span = min(edgeMap[j].span, distance);
-					got = true;
-					std::cout << i << " " << j << std::endl;
-				}
-			}	
-		}
-		if (got){
-			edgeMap[i].span = distance;
-			edgeMap[curMin].span = distance;
-			edgeMap[i].oppositeIndex = curMin;
-			edgeMap[curMin].oppositeIndex = i;
+	
+	for (int k = 0; k < edgeMap.size(); k++){
+		for (int i = 0; i < edgeMap[k].size(); i++){
+			std::cout << edgeMap[k][i].index << " " << edgeMap[k][i].oppositeIndex << " " << edgeMap[k][i].p1 << " " << edgeMap[k][i].p2 << " " << edgeMap[k][i].span << " " << edgeMap[k][i].sign<< std::endl;
 		}
 	}
 
-	for (int i = 0; i < edgeMap.size(); i++){
-		Edge temp = edgeMap[i];
-		std::cout << temp.index << " " << temp.oppositeIndex << " " << temp.p1 << " " << temp.p2 << " " << temp.span << std::endl;
-	}
-
-	Point a = { 40, 434 };
-	Point b = { 40, 729 };
-	Point c = { 47, 722 };
-	Point d = { 47, 434 };
-	std::cout << pDistance(a, b, c, d) << " ????" << std::endl;
-
-	//for (int i = 0; i < edgeMap.size(); i++){
-	//	Edge e1 = edgeMap[i];
-	//	if (e1.span < INT_MAX){
-	//		Node n1, n2;
-	//		n1.index = nodeMap.size();
-	//		n2.index = nodeMap.size()+1;
-	//		n1.vertex = edgeMap[i].p1;
-	//		n2.vertex = edgeMap[i].p2;
-	//		n1.indexMap.push_back(n2.index);
-	//		n2.indexMap.push_back(n1.index);
-	//		nodeMap.push_back(n1);
-	//		nodeMap.push_back(n2);
-	//	}
-	//}
 
 	return edgeMap;
 }
@@ -238,12 +218,26 @@ Mat printContours(Vector<Node> nodeMap,Mat &src){
 	return refinedEdge;
 }
 
-Mat printEdges(Vector<Edge> edgeMap, Mat &src){
+Mat printEdges(vector<vector<Edge>> edgeMap, Mat &src, int picIndex){
+	std::ofstream myfileStream;
+	String d = ("output/edgeData2/") + std::to_string(picIndex) + ("_info.txt");
+	myfileStream.open(d);
+
 	Mat edges2 = ~Mat::zeros(src.size(), CV_8UC3);
-	//for (int i = 0; i < edgeMap.size(); i++){
-	//	Edge temp = edgeMap[i];
-	//	std::cout << temp.index << " " << temp.oppositeIndex << " " << temp.p1 << " " << temp.p2 << " " << temp.span << std::endl;
-	//}
+	for (int i = 0; i < edgeMap.size(); i++){
+		for (int j = 0; j < edgeMap[i].size(); j++){
+			Edge temp = edgeMap[i][j];
+			if (temp.sign == true){
+				Point p1 = temp.p1;
+				Point p2 = temp.p2;
+				//line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), temp.span, 8);
+				if (temp.span > 10) temp.span = 10;
+				line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255),temp.span , 8);
+				myfileStream << temp.span << " " << temp.p1 << " " << temp.p2 << " " << temp.index << " " << temp.oppositeIndex << "\n\n";
+			}
+		}
+	}
+	myfileStream.close();
 	imshow("Solution 2", edges2);
 	return edges2;
 }
@@ -255,17 +249,16 @@ Mat imageProcess(Mat src, int picIndex){
 	src = ~src;
 	Scalar rgb_min(0);
 	Scalar rgb_max(250);
-	threshold(src, src, 230, 255, 0);
+	threshold(src, src, 200, 255, 0);
 	//inRange(src, rgb_min, rgb_max, src);
-
-	erodeAndDilate(src, 1.6);
+	imshow("Threshold: ", src);
+	erodeAndDilate(src, 1);
 	Mat midImage, dstImage;
 	dstImage = ~dstImage;
 	cvtColor(src, dstImage, CV_GRAY2BGR);
 	medianBlur(src, src, 5);
-	imshow("Threshold: ", src);
 
-	int thresh = 100;
+	int thresh = 50;
 	Mat canny_output;
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
@@ -286,13 +279,12 @@ Mat imageProcess(Mat src, int picIndex){
 
 	//vector<Node> nodeMap = contoursToMap(contours_poly, 10, picIndex);
 	//Mat refinedEdge = printContours(nodeMap,src);
-	vector<Edge> edgeMap = contoursToMap2(contours_poly, 10, picIndex);
-	Mat edges2 = printEdges(edgeMap,src);
+	vector<vector<Edge>> edgeMap = contoursToMap2(contours_poly, 10, picIndex);
+	Mat edges2 = printEdges(edgeMap,src,picIndex);
 
 
 	/// Show in a window
-	imshow("dst", dstImage);
-	return rawEdge;
+	return edges2;
 }
 
 void openCVProcess(int imgNum){

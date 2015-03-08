@@ -26,6 +26,7 @@ struct Edge{
 	int index;
 	int oppositeIndex;
 	float span;
+	bool sign;
 	Point p1;
 	Point p2;
 

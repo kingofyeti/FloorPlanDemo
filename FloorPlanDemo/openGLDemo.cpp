@@ -503,7 +503,7 @@ void TwBarFunc(){
 }
 
 int main(int argc, char* argv[]){
-	openCVProcess(3);
+	openCVProcess(18);
 	glutInit(&argc, argv);
 	cout << "hello GL" << endl;
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -520,10 +520,8 @@ int main(int argc, char* argv[]){
 	glutDisplayFunc(render);
 	glutReshapeFunc(reshape);
 
-	
 	TwBarFunc();
 	glutMainLoop();//enters the GLUT event processing loop.
-
 	return 0;
 }
 
