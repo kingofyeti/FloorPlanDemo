@@ -126,7 +126,7 @@ bool isOpposite(Edge &e1, Edge &e2){
 	Vec2f v2(p2.x, p2.y);
 	Vec2f goal = v1/norm(v1) + v2/norm(v2);
 	//std::cout << goal << std::endl;
-	if (goal[0] == 0 && goal[1] == 0){
+	if (goal[0] < 0.1 && goal[0] > -0.1 && goal[1] < 0.1 && goal[1] > -0.1){
 		return true;
 	}
 	else{
@@ -153,10 +153,6 @@ float pDistance(Point e1p1, Point e1p2, Point e2p1, Point e2p2){
 
 vector<Edge> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
 	vector<Edge> edgeMap;
-	Point p1 = { 1, 1 };
-	Point p2 = { 1, 1 };
-	Edge e1 = {1, 2, 10, p1, p2};
-	edgeMap.push_back(e1);
 	for (int i = 0; i < contours.size(); i++){
 		for (int j = 0; j < contours[i].size(); j++){
 			int second = j != contours[i].size() - 1 ? j + 1 : 0; // Next point index
@@ -173,19 +169,21 @@ vector<Edge> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio,
 		}
 	}
 	for (int i = 0; i < edgeMap.size(); i++){
-		Edge e1 = edgeMap[i];
 		int j;
 		int curMin = -1;
 		float distance = 100;
 		bool got = false;
 		for (j = 0; j < i; j++){
-			Edge e2 = edgeMap[j];
-			if (i != j && isOpposite(e1, e2)){
-				if (pDistance(e1.p1, e1.p2, e2.p1, e2.p2) < e1.span && pDistance(e1.p1, e1.p2, e2.p1, e2.p2) < e2.span){
-					distance = pDistance(e1.p1, e1.p2, e2.p1, e2.p2);
+			if (i != j && isOpposite(edgeMap[i], edgeMap[j])){
+				float localDistance = pDistance(edgeMap[i].p1, edgeMap[i].p2, edgeMap[j].p1, edgeMap[j].p2);
+				if (localDistance < edgeMap[i].span || localDistance < edgeMap[j].span){
+					distance = localDistance;
 					//std::cout << "YES@!!!!!" << i << " " << j << " " << distance << std::endl;
 					curMin = j;
+					edgeMap[i].span = min(edgeMap[i].span,distance);
+					edgeMap[j].span = min(edgeMap[j].span, distance);
 					got = true;
+					std::cout << i << " " << j << std::endl;
 				}
 			}	
 		}
@@ -202,11 +200,11 @@ vector<Edge> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio,
 		std::cout << temp.index << " " << temp.oppositeIndex << " " << temp.p1 << " " << temp.p2 << " " << temp.span << std::endl;
 	}
 
-	Point a = { 557, 469 };
-	Point b = { 323, 469 };
-	Point c = { 737, 476 };
-	Point d = { 570, 203 };
-	//std::cout << pDistance(a, b, c, d) << std::endl;
+	Point a = { 40, 434 };
+	Point b = { 40, 729 };
+	Point c = { 47, 722 };
+	Point d = { 47, 434 };
+	std::cout << pDistance(a, b, c, d) << " ????" << std::endl;
 
 	//for (int i = 0; i < edgeMap.size(); i++){
 	//	Edge e1 = edgeMap[i];
