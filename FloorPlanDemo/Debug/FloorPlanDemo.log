@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿Build started 3/8/2015 6:28:03 PM.
      1>Project "C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
@@ -11,6 +12,30 @@
      1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\opengldemo.cpp(312): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\opengldemo.cpp(329): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\opengldemo.cpp(330): warning C4018: '<' : signed/unsigned mismatch
+=======
+﻿Build started 3/4/2015 10:53:57 PM.
+     1>Project "E:\Github\Git_local\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt imageProcess.cpp
+         imageProcess.cpp
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(61): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(69): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(73): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(81): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(124): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(126): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(145): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(146): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(153): warning C4305: '=' : truncation from 'int' to 'float'
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(160): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(164): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(170): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(201): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(202): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(229): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(243): warning C4018: '<' : signed/unsigned mismatch
+     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(249): warning C4018: '<' : signed/unsigned mismatch
+>>>>>>> parent of b775347... Daily Update
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\Debug\FloorPlanDemo.exe" /INCREMENTAL /NOLOGO opencv_ml2410d.lib opencv_calib3d2410d.lib opencv_contrib2410d.lib opencv_core2410d.lib opencv_features2d2410d.lib opencv_flann2410d.lib opencv_gpu2410d.lib opencv_highgui2410d.lib opencv_imgproc2410d.lib opencv_legacy2410d.lib opencv_objdetect2410d.lib opencv_ts2410d.lib opencv_video2410d.lib opencv_nonfree2410d.lib opencv_ocl2410d.lib opencv_photo2410d.lib opencv_stitching2410d.lib opencv_superres2410d.lib opencv_videostab2410d.lib opencv_objdetect2410.lib opencv_ts2410.lib opencv_video2410.lib opencv_nonfree2410.lib opencv_ocl2410.lib opencv_photo2410.lib opencv_stitching2410.lib opencv_superres2410.lib opencv_videostab2410.lib opencv_calib3d2410.lib opencv_contrib2410.lib opencv_core2410.lib opencv_features2d2410.lib opencv_flann2410.lib opencv_gpu2410.lib opencv_highgui2410.lib opencv_imgproc2410.lib opencv_legacy2410.lib opencv_ml2410.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\Debug\FloorPlanDemo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\Debug\FloorPlanDemo.lib" /MACHINE:X86 Debug\openGLDemo.obj
          Debug\imageProcess.obj
@@ -19,4 +44,8 @@
 
 Build succeeded.
 
+<<<<<<< HEAD
 Time Elapsed 00:00:01.51
+=======
+Time Elapsed 00:00:04.23
+>>>>>>> parent of b775347... Daily Update

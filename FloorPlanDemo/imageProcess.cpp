@@ -126,29 +126,18 @@ bool isOpposite(Edge &e1, Edge &e2){
 	Vec2f v2(p2.x, p2.y);
 	Vec2f goal = v1/norm(v1) + v2/norm(v2);
 	//std::cout << goal << std::endl;
+<<<<<<< HEAD
 	if (goal[0] < 0.1 && goal[0] > -0.1 && goal[1] < 0.1 && goal[1] > -0.1){
+=======
+	if (goal[0] == 0 && goal[1] == 0)
+>>>>>>> parent of b775347... Daily Update
 		return true;
-	}
-	else{
+	else
 		return false;
-	}
-	
 }
 
-float pDistance(Point e1p1, Point e1p2, Point e2p1, Point e2p2){
-	float distance;
-	Point temp;
-	temp.x = (e2p2.x + e2p1.x) / 2;
-	temp.y = (e2p2.y + e2p1.y) / 2; 
-	if (e1p1.x - e1p2.x == 0){
-		distance = abs(temp.x - e1p1.x);
-		return distance;
-	}
-	float k = (e1p1.y - e1p2.y) / (e1p1.x - e1p2.x);
-	float b = e1p1.y - k * e1p1.x;
-
-	distance = (k*temp.x - temp.y + b) / sqrt(k*k + 1);
-	return abs(distance);
+float pDistance(Point p1, Point p2, Point dst){
+	return 10;
 }
 
 vector<vector<Edge>> contoursToMap2(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
@@ -171,6 +160,7 @@ vector<vector<Edge>> contoursToMap2(vector<vector<Point>> &contours, float erosi
 		}
 		edgeMap.push_back(temp);
 	}
+<<<<<<< HEAD
 	for (int k = 0; k < edgeMap.size(); k++){
 		for (int i = 0; i < edgeMap[k].size(); i++){
 			int j;
@@ -200,6 +190,43 @@ vector<vector<Edge>> contoursToMap2(vector<vector<Point>> &contours, float erosi
 		}
 	}
 
+=======
+	for (int i = 0; i < edgeMap.size(); i++){
+		Edge e1 = edgeMap[i];
+		int j;
+		int curMin;
+		for (j = 0; j < edgeMap.size(); j++){
+			Edge e2 = edgeMap[j];
+			if (i != j && isOpposite(e1, e2)){
+				Point temp;
+				temp.x = (e2.p2.x - e2.p1.x) / 2;
+				temp.y = (e2.p2.y - e2.p1.y) / 2;
+				int distance = pDistance(e1.p1, e2.p2, temp);
+				if (distance < e1.span && distance < e2.span){
+					e1.span = min(e1.span, pDistance(e1.p1, e2.p2, temp));
+					e2.span = min(e2.span, pDistance(e1.p1, e2.p2, temp));
+					e1.oppositeIndex = j;
+					e2.oppositeIndex = i;
+					curMin = j;
+				}
+			}	
+		}
+	}
+	//for (int i = 0; i < edgeMap.size(); i++){
+	//	Edge e1 = edgeMap[i];
+	//	if (e1.span < INT_MAX){
+	//		Node n1, n2;
+	//		n1.index = nodeMap.size();
+	//		n2.index = nodeMap.size()+1;
+	//		n1.vertex = edgeMap[i].p1;
+	//		n2.vertex = edgeMap[i].p2;
+	//		n1.indexMap.push_back(n2.index);
+	//		n2.indexMap.push_back(n1.index);
+	//		nodeMap.push_back(n1);
+	//		nodeMap.push_back(n2);
+	//	}
+	//}
+>>>>>>> parent of b775347... Daily Update
 
 	return edgeMap;
 }
@@ -224,6 +251,7 @@ Mat printEdges(vector<vector<Edge>> edgeMap, Mat &src, int picIndex){
 	myfileStream.open(d);
 
 	Mat edges2 = ~Mat::zeros(src.size(), CV_8UC3);
+<<<<<<< HEAD
 	for (int i = 0; i < edgeMap.size(); i++){
 		for (int j = 0; j < edgeMap[i].size(); j++){
 			Edge temp = edgeMap[i][j];
@@ -238,6 +266,8 @@ Mat printEdges(vector<vector<Edge>> edgeMap, Mat &src, int picIndex){
 		}
 	}
 	myfileStream.close();
+=======
+>>>>>>> parent of b775347... Daily Update
 	imshow("Solution 2", edges2);
 	return edges2;
 }
