@@ -1,44 +1,53 @@
-﻿Build started 3/9/2015 10:52:24 PM.
-     1>Project "E:\Github\Git_local\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" on node 2 (Build target(s)).
+﻿Build started 3/10/2015 3:24:54 PM.
+     1>Project "C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt imageProcess.cpp
          imageProcess.cpp
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(61): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(69): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(73): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(81): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(124): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(126): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(144): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(147): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(156): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(158): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(166): warning C4305: '=' : truncation from 'int' to 'float'
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(174): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(175): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(178): warning C4305: 'initializing' : truncation from 'int' to 'float'
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(180): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(198): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(199): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(211): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(212): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(219): warning C4305: '=' : truncation from 'int' to 'float'
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(226): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(228): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(245): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(257): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(258): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(275): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(276): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(299): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(338): warning C4018: '<' : signed/unsigned mismatch
-     1>e:\github\git_local\floorplandemo\floorplandemo\imageprocess.cpp(344): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(61): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(69): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(73): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(81): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(124): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(126): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(145): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(146): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(149): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(150): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(153): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(154): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(166): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(169): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(178): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(180): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(188): warning C4305: '=' : truncation from 'int' to 'float'
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(196): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(197): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(200): warning C4305: 'initializing' : truncation from 'int' to 'float'
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(202): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(220): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(221): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(232): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(233): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(240): warning C4305: '=' : truncation from 'int' to 'float'
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(248): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(250): warning C4305: 'initializing' : truncation from 'int' to 'float'
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(252): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(262): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(263): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(274): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(285): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(286): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(303): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(304): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(327): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(366): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\virtualbloksasus\documents\github\floorplandemo\floorplandemo\imageprocess.cpp(372): warning C4018: '<' : signed/unsigned mismatch
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Github\Git_local\FloorPlanDemo\Debug\FloorPlanDemo.exe" /INCREMENTAL /NOLOGO opencv_ml2410d.lib opencv_calib3d2410d.lib opencv_contrib2410d.lib opencv_core2410d.lib opencv_features2d2410d.lib opencv_flann2410d.lib opencv_gpu2410d.lib opencv_highgui2410d.lib opencv_imgproc2410d.lib opencv_legacy2410d.lib opencv_objdetect2410d.lib opencv_ts2410d.lib opencv_video2410d.lib opencv_nonfree2410d.lib opencv_ocl2410d.lib opencv_photo2410d.lib opencv_stitching2410d.lib opencv_superres2410d.lib opencv_videostab2410d.lib opencv_objdetect2410.lib opencv_ts2410.lib opencv_video2410.lib opencv_nonfree2410.lib opencv_ocl2410.lib opencv_photo2410.lib opencv_stitching2410.lib opencv_superres2410.lib opencv_videostab2410.lib opencv_calib3d2410.lib opencv_contrib2410.lib opencv_core2410.lib opencv_features2d2410.lib opencv_flann2410.lib opencv_gpu2410.lib opencv_highgui2410.lib opencv_imgproc2410.lib opencv_legacy2410.lib opencv_ml2410.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Github\Git_local\FloorPlanDemo\Debug\FloorPlanDemo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Github\Git_local\FloorPlanDemo\Debug\FloorPlanDemo.lib" /MACHINE:X86 Debug\openGLDemo.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\Debug\FloorPlanDemo.exe" /INCREMENTAL /NOLOGO opencv_ml2410d.lib opencv_calib3d2410d.lib opencv_contrib2410d.lib opencv_core2410d.lib opencv_features2d2410d.lib opencv_flann2410d.lib opencv_gpu2410d.lib opencv_highgui2410d.lib opencv_imgproc2410d.lib opencv_legacy2410d.lib opencv_objdetect2410d.lib opencv_ts2410d.lib opencv_video2410d.lib opencv_nonfree2410d.lib opencv_ocl2410d.lib opencv_photo2410d.lib opencv_stitching2410d.lib opencv_superres2410d.lib opencv_videostab2410d.lib opencv_objdetect2410.lib opencv_ts2410.lib opencv_video2410.lib opencv_nonfree2410.lib opencv_ocl2410.lib opencv_photo2410.lib opencv_stitching2410.lib opencv_superres2410.lib opencv_videostab2410.lib opencv_calib3d2410.lib opencv_contrib2410.lib opencv_core2410.lib opencv_features2d2410.lib opencv_flann2410.lib opencv_gpu2410.lib opencv_highgui2410.lib opencv_imgproc2410.lib opencv_legacy2410.lib opencv_ml2410.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\Debug\FloorPlanDemo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\Debug\FloorPlanDemo.lib" /MACHINE:X86 Debug\openGLDemo.obj
          Debug\imageProcess.obj
-         FloorPlanDemo.vcxproj -> E:\Github\Git_local\FloorPlanDemo\Debug\FloorPlanDemo.exe
-     1>Done Building Project "E:\Github\Git_local\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" (Build target(s)).
+         FloorPlanDemo.vcxproj -> C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\Debug\FloorPlanDemo.exe
+     1>Done Building Project "C:\Users\VirtualBloksASUS\Documents\GitHub\FloorPlanDemo\FloorPlanDemo\FloorPlanDemo.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.28
+Time Elapsed 00:00:01.17

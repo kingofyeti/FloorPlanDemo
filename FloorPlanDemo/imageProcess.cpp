@@ -135,6 +135,28 @@ bool isOpposite(Edge &e1, Edge &e2){
 	
 }
 
+double calTwoVectorGap(Vec2f &v1, Vec2f & v2){
+	double res = v1.ddot(v2) / norm(v2);
+	return res > 0 ? res : 0;
+}
+
+double edgeGap(Edge &e1, Edge &e2){
+	// Vector 1 & 2
+	Vec2f v1(e1.p2.x - e1.p1.x, e1.p2.y - e1.p1.y);
+	Vec2f v2(e2.p1.x - e2.p2.x, e2.p1.y - e2.p2.y);
+
+	// Vector 3 & 4 relate to 1
+	Vec2f v3(e2.p2.x - e1.p1.x, e2.p2.y - e1.p1.y);
+	Vec2f v4(e2.p1.x - e1.p1.x, e2.p1.y - e1.p1.y);
+
+	// Vector 5 & 6 relate to 2
+	Vec2f v5(e1.p1.x - e2.p2.x, e1.p1.y - e2.p2.y);
+	Vec2f v6(e1.p2.x - e2.p2.x, e1.p2.y - e2.p2.y);
+
+	double res = min(abs(calTwoVectorGap(v1, v4) - calTwoVectorGap(v1, v3)), abs(calTwoVectorGap(v2, v5) - calTwoVectorGap(v2, v6)));
+	return res;
+}
+
 float pDistance(Point e1p1, Point e1p2, Point e2p1, Point e2p2){
 	float distance;
 	Point temp;
@@ -205,7 +227,6 @@ vector<vector<Edge>> contoursToMap2(vector<vector<Point>> &contours, float erosi
 	return edgeMap;
 }
 
-
 vector<Edge> contoursToMap3(vector<vector<Point>> &contours, float erosionRatio, int picIndex){
 	vector<Edge> edgeMap;
 	for (int i = 0; i < contours.size(); i++){
@@ -219,37 +240,44 @@ vector<Edge> contoursToMap3(vector<vector<Point>> &contours, float erosionRatio,
 				tempEdge.span = INT_MAX;
 				tempEdge.p1 = contours[i][j];
 				tempEdge.p2 = contours[i][second];
+				tempEdge.sign = false;
 				edgeMap.push_back(tempEdge);
 			}
 		}
 	}
 	for (int i = 0; i < edgeMap.size(); i++){
 		int j;
+		float minEdge = INT_MAX;
+		int minEdgeIndex = -1;
 		for (j = 0; j < edgeMap.size(); j++){
-			if (i != j && isOpposite(edgeMap[i], edgeMap[j])){
-				float distance = pDistance(edgeMap[i].p1, edgeMap[i].p2, edgeMap[j].p1, edgeMap[j].p2);
-				if (distance < edgeMap[i].span){
-					edgeMap[i].sign = true;
-					edgeMap[i].span = distance;
-					edgeMap[i].oppositeIndex = j;
-				}
-				if (distance < edgeMap[j].span){
-				//	edgeMap[j].sign = true;
-					edgeMap[j].span = distance;
-					edgeMap[j].oppositeIndex = i;
-				}
-			}
+			if (i != j && isOpposite(edgeMap[i], edgeMap[j]) && edgeGap(edgeMap[i], edgeMap[j])>0 
+				&& !edgeMap[i].sign && !edgeMap[j].sign && pDistance(edgeMap[i].p1, edgeMap[i].p2, edgeMap[j].p1, edgeMap[j].p2)<edgeMap[i].span ){
+						minEdge = pDistance(edgeMap[i].p1, edgeMap[i].p2, edgeMap[j].p1, edgeMap[j].p2);
+						minEdgeIndex = j; 
+						edgeMap[i].span = min(edgeMap[i].span,minEdge);
+						//std::cout << i << " " << j << "  Gap: " << edgeGap(edgeMap[i], edgeMap[j]) << std::endl;
+					}
 		}
+		if (minEdgeIndex != -1 && i != minEdgeIndex){
+			float fi = norm(edgeMap[i].p1 - edgeMap[i].p2);
+			float fj = norm(edgeMap[minEdgeIndex].p1 - edgeMap[minEdgeIndex].p2);
+			int smallerIndex = fi < fj ? i : minEdgeIndex;
+			int biggerIndex = fi > fj ? i : minEdgeIndex;
+			//std::cout << smallerIndex << " " << biggerIndex << std::endl;
+			edgeMap[smallerIndex].span = minEdge;
+			edgeMap[smallerIndex].sign = true;
+			edgeMap[smallerIndex].oppositeIndex = biggerIndex;
+		}
+		
 	}
 
 	for (int i = 0; i < edgeMap.size(); i++){
 		Edge temp = edgeMap[i];
+		if (temp.sign)
 		std::cout << temp.index << " " << temp.oppositeIndex << " " << temp.p1 << " " << temp.p2 << " " << temp.span << std::endl;
 	}
 	return edgeMap;
 }
-
-
 
 
 Mat printContours(Vector<Node> nodeMap,Mat &src){
@@ -281,7 +309,7 @@ Mat printEdges(vector<vector<Edge>> edgeMap, Mat &src, int picIndex){
 				line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255),1 , 8);
 				if (temp.span > 100) temp.span = 10;
 				//line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255),temp.span , 8);
-				myfileStream << temp.span << " " << temp.p1 << " " << temp.p2 << " " << temp.index << " " << temp.oppositeIndex << "\n\n";
+				myfileStream << temp.span << " " << temp.p1 << " " << temp.p2 << " " << temp.index << " " << temp.oppositeIndex  << "\n\n";
 			}
 		}
 	}
@@ -301,10 +329,10 @@ Mat printEdges3(vector<Edge> edgeMap, Mat &src, int picIndex){
 			if (temp.sign == true){
 				Point p1 = temp.p1;
 				Point p2 = temp.p2;
-				if (temp.span > 50) temp.span = 10;
+				//if (temp.span > 50) temp.span = 10;
 				line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 1, 8);
 				//line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), temp.span, 8);
-				myfileStream << temp.span << " " << temp.p1 << " " << temp.p2 << " " << temp.index << " " << temp.oppositeIndex << "\n\n";
+				myfileStream << temp.span << " " << temp.p1 << " " << temp.p2 << " " << temp.index << " " << temp.oppositeIndex << " " << temp.sign << "\n\n";
 			}
 	}
 	myfileStream.close();
@@ -349,13 +377,13 @@ Mat imageProcess(Mat src, int picIndex){
 
 	//vector<Node> nodeMap = contoursToMap(contours_poly, 10, picIndex);
 	//Mat refinedEdge = printContours(nodeMap,src);
-	vector<vector<Edge>> edgeMap = contoursToMap2(contours_poly, 10, picIndex);
+	//vector<vector<Edge>> edgeMap = contoursToMap2(contours_poly, 10, picIndex);
 	vector<Edge> edgeMap3 = contoursToMap3(contours_poly, 10, picIndex);
-	Mat edges2 = printEdges(edgeMap,src,picIndex);
-	//Mat edges3 = printEdges3(edgeMap3, src, picIndex);
+	//Mat edges2 = printEdges(edgeMap,src,picIndex);
+	Mat edges3 = printEdges3(edgeMap3, src, picIndex);
 
 	/// Show in a window
-	return edges2;
+	return edges3;
 }
 
 void openCVProcess(int imgNum){

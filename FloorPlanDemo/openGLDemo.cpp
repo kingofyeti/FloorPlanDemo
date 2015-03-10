@@ -1,16 +1,3 @@
-//  ---------------------------------------------------------------------------
-//
-//  @file       FloorPlanDemo
-//  @tools used: 
-//              AntTweakBar: http://anttweakbar.sourceforge.net/doc
-//              OpenGL:      http://www.opengl.org
-//				OpenCV:		 http://www.opencv.org
-//              GLUT:        http://opengl.org/resources/libraries/glut
-//  
-//  @author     Yeqi Wang
-//  @date       02/25/2015
-//
-//  ---------------------------------------------------------------------------
 #include "openGLDemo.h"
 
 using namespace std;
@@ -503,7 +490,7 @@ void TwBarFunc(){
 }
 
 int main(int argc, char* argv[]){
-	openCVProcess(18);
+	openCVProcess(2);
 	glutInit(&argc, argv);
 	cout << "hello GL" << endl;
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
