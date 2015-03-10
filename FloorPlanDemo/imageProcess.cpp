@@ -251,18 +251,18 @@ vector<Edge> contoursToMap3(vector<vector<Point>> &contours, float erosionRatio,
 		int minEdgeIndex = -1;
 		for (j = 0; j < edgeMap.size(); j++){
 			if (i != j && isOpposite(edgeMap[i], edgeMap[j]) && edgeGap(edgeMap[i], edgeMap[j])>0 
-				&& !edgeMap[i].sign && !edgeMap[j].sign && pDistance(edgeMap[i].p1, edgeMap[i].p2, edgeMap[j].p1, edgeMap[j].p2)<edgeMap[i].span ){
+				&& !edgeMap[i].sign && !edgeMap[j].sign && pDistance(edgeMap[i].p1, edgeMap[i].p2, edgeMap[j].p1, edgeMap[j].p2)< edgeMap[i].span ){
 						minEdge = pDistance(edgeMap[i].p1, edgeMap[i].p2, edgeMap[j].p1, edgeMap[j].p2);
 						minEdgeIndex = j; 
-						edgeMap[i].span = min(edgeMap[i].span,minEdge);
-						//std::cout << i << " " << j << "  Gap: " << edgeGap(edgeMap[i], edgeMap[j]) << std::endl;
+						edgeMap[i].span = minEdge;
+						std::cout << i << " " << minEdgeIndex << " " << minEdge<< "  Gap: " << edgeGap(edgeMap[i], edgeMap[minEdgeIndex]) << std::endl;
 					}
 		}
-		if (minEdgeIndex != -1 && i != minEdgeIndex){
+		if (minEdgeIndex != -1 && i != minEdgeIndex && minEdge < 20){
 			float fi = norm(edgeMap[i].p1 - edgeMap[i].p2);
 			float fj = norm(edgeMap[minEdgeIndex].p1 - edgeMap[minEdgeIndex].p2);
 			int smallerIndex = fi < fj ? i : minEdgeIndex;
-			int biggerIndex = fi > fj ? i : minEdgeIndex;
+			int biggerIndex = fi < fj ? minEdgeIndex : i;
 			//std::cout << smallerIndex << " " << biggerIndex << std::endl;
 			edgeMap[smallerIndex].span = minEdge;
 			edgeMap[smallerIndex].sign = true;
@@ -273,7 +273,7 @@ vector<Edge> contoursToMap3(vector<vector<Point>> &contours, float erosionRatio,
 
 	for (int i = 0; i < edgeMap.size(); i++){
 		Edge temp = edgeMap[i];
-		if (temp.sign)
+		//if (temp.sign)
 		std::cout << temp.index << " " << temp.oppositeIndex << " " << temp.p1 << " " << temp.p2 << " " << temp.span << std::endl;
 	}
 	return edgeMap;
@@ -330,8 +330,8 @@ Mat printEdges3(vector<Edge> edgeMap, Mat &src, int picIndex){
 				Point p1 = temp.p1;
 				Point p2 = temp.p2;
 				//if (temp.span > 50) temp.span = 10;
-				line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 1, 8);
-				//line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), temp.span, 8);
+				//line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), 1, 8);
+				line(edges2, cvPoint(p1.x, p1.y), cvPoint(p2.x, p2.y), Scalar(0, 0, 255), temp.span, 8);
 				myfileStream << temp.span << " " << temp.p1 << " " << temp.p2 << " " << temp.index << " " << temp.oppositeIndex << " " << temp.sign << "\n\n";
 			}
 	}
